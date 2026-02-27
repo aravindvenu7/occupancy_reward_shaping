@@ -1,0 +1,20 @@
+This code requires the same dependencies as OGBench. Please refer to this link to install them: https://github.com/seohongpark/ogbench/ 
+
+
+General steps for running ORS:
+
+To train the occupancy model:
+
+python occupancy.py --env_name=antmaze-giant-navigate-v0 --agent=agents/mc_occ.py --train_steps 2000000 --agent.state_action=True
+
+To train the reward function:
+
+python reward_distillation.py --env_name=antmaze-giant-navigate-v0 --agent=agents/rew.py --reward_shaping=1 --fp_restore_epoch 2000000 --project=rew_fn --future_restore_path path/to/save_occupancy_model_dir --batch_size 256 --train_steps 2000000 --state_action=1
+
+To train GCIQL with ORS reward shaping:
+
+python main.py --env_name=antmaze-giant-navigate-v0 --seed=0 --run_group=ORS --eval_episodes=50 --agent=agents/gciql.py --fp_restore_epoch 2000000 --project=antmaze-giant-navigate --batch_size 1024 --rew_restore_path path/to/reward_fn --rew_restore_epoch 2000000 --agent.expectile=0.6 --use_rew_model=True --agent.alpha=0.1 --reward_shaping=1 --train_steps=6000000 --state_action=True --agent.discount=0.995
+
+
+
+The dataset can be changed by changing the "env_name" parameter. Please refer to the the "impls/agents/" subdirectory for details on hyperparameters of each agent and to the Appendix of our paper for detailed lists of hyperparameters. 
