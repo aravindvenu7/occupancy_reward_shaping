@@ -80,7 +80,7 @@ class MCOccAgent(flax.struct.PyTreeNode):
     def actor_loss_td(self, batch, grad_params, rng): 
         """Compute the FQL actor loss."""
 
-        num_samples = 50
+        num_samples = 1
 
         ######################
         if self.config['encoder'] is not None:        

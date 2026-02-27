@@ -110,12 +110,12 @@ def main(_):
     train_logger = CsvLogger(os.path.join(FLAGS.save_dir, 'train.csv'))
     first_time = time.time()
     last_time = time.time()
-    td_training = False
+    td_training = True
     for i in tqdm.tqdm(range(1, FLAGS.train_steps + 1), smoothing=0.1, dynamic_ncols=True):
 
         
-        if i ==  int(FLAGS.train_steps//2):
-            td_training = True
+        #if i ==  int(FLAGS.train_steps//2):
+        #    td_training = True
         # Update agent.
         
         batch = train_dataset.sample(config['batch_size'])
