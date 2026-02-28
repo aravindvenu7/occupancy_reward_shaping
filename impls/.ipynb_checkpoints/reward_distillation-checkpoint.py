@@ -4,7 +4,7 @@ import random
 import time
 from collections import defaultdict
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import jax
 import numpy as np

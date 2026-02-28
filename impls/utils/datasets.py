@@ -71,7 +71,7 @@ def compute_shaped_rewards(forward_model, inits, ends, rew_model = None, nexts =
         '''
         
         def compute_reward_for_t(x_t_single, t_single):
-            t_broadcast = jnp.full((*inits_rep.shape[:-1], 1), t_single)
+            t_broadcast = jnp.full((*inits.shape[:-1], 1), t_single)
             pred_f = forward_model.network.select("actor_bc_flow")(inits, x_t_single, t_broadcast)
             pred_b = vel
             reward = (pred_f - pred_b) ** 2  
@@ -317,7 +317,7 @@ class GCDataset:
         successes = (idxs == value_goal_idxs).astype(float)
         batch['masks'] = 1.0 - successes
         
-        if self.config['reward_shaping']:
+        if self.config['reward_shaping'] and batch_size > 1:
             ends = self.get_observations(value_goal_idxs)
             if self.config['state_action']:
                 inits = self.get_observations(np.minimum(idxs, final_state_idxs))
